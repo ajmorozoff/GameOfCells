@@ -1,13 +1,12 @@
-import { SET_COLOR } from '../actions';
+import { SET_GAME } from '../actions';
 
 //constants for initial state
-const INIT_COLOR = '#FFFFFF';
+const INIT_GAME = null;
 
-//reducer for setting the board tile color
-export const colorReducer = (state = INIT_COLOR, action) => {
+export const gameReducer = (state = INIT_GAME, action) => {
     switch (action.type) {
-        case SET_COLOR:
-            return action.color
+        case SET_GAME:
+            return action.game
         default:
             return state;
     }

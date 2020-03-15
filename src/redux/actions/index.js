@@ -1,10 +1,17 @@
 //constants
-export const SET_COLOR = 'SET_COLOR';
+export const SET_GAME = 'SET_GAME';
+// export const SET_GRID = 'SET_GRID';
 
-//set the primaryColor of the board tiles
-export const setColor = (color) => {
+export const setGame = (game) => {
     return {
-        type: SET_COLOR,
-        color
+        type: SET_GAME,
+        game
     }
 };
+
+// export const setGrid = (game) => {
+//     return {
+//         type: SET_GRID,
+//         game
+//     }
+// };

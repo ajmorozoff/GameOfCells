@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { prependOnceListener } from 'cluster';
 
 interface ButtonProps {
     readonly secondary: boolean;

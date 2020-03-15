@@ -1,12 +1,24 @@
 import styled from 'styled-components';
+import { prependOnceListener } from 'cluster';
 
-export default styled.button`
-    padding: 0.5em 1em;
+interface ButtonProps {
+    readonly secondary: boolean;
+    readonly danger: boolean;
+};
+
+export const Button = styled.button<ButtonProps>`
+    padding: 1rem 1.5rem;
     margin: 0 5em;
-    border-radius: 3px;
+    border-radius: 2px;
     font-size: 1rem;
-    background-color: rgb(22, 36, 59);
-    color: #BBC7CE; 
+    color: ${props => props.theme.fonts.filled};
+    background-color: ${props => 
+        props.danger 
+        ? props.theme.colors.danger 
+        : props.secondary
+        ? props.theme.colors.secondary
+        : props.theme.colors.main};
+    transition: background-color 0.2s ease-in;
     &:hover {
         background-color: #07354E;
         color: #FFFFFF;

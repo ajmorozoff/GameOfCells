@@ -30,22 +30,4 @@ select {
   border: 2px solid rgb(32, 53, 87);
 }
 
-button {
-  padding: 0.5em 1em;
-  margin: 0.25em;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  font-size: 0.9em;
-  text-align: center;
-  background-color: rgb(22, 36, 59);
-  color: #BBC7CE; 
-}
 
-button:hover {
-  background-color: #07354E;
-  color: #FFFFFF;
-}
-
-button:disabled {
-    opacity: 0.3;
-}

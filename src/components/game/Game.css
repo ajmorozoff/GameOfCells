@@ -1,4 +1,12 @@
 table {
     border-collapse: collapse;
-    border-spacing: 0;
 }
+
+.cell {
+    border: 1px solid #142542;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+    width: 24px;
+}
+

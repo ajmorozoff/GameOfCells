@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Game } from '../../definitions';
-import PageGrid from './PageGrid';
 import './Game.css';
 
 const GameController = () => {
@@ -43,10 +42,15 @@ const GameController = () => {
         updateBoard();
     }
 
+    const handleRandom = () => {
+        game.randomize();
+        updateBoard();
+    }
+
     return (
-        <div>
-            <table>
-                <tbody id='grid-body'>
+        <div className='container'>
+            <table className='game'>
+                <tbody>
                     {
                         game.board.grid.map((row, rIdx) => {
                             return (
@@ -70,7 +74,7 @@ const GameController = () => {
                     }
                 </tbody>
             </table>
-            <div id='controls'>
+            <div className='controls'>
                 <button
                     onClick={handleStep}
                 >
@@ -80,6 +84,11 @@ const GameController = () => {
                     onClick={togglePlay}
                 >
                     {playPause}
+                </button>
+                <button
+                    onClick={handleRandom}
+                >
+                    Randomize
                 </button>
             </div>
         </div>

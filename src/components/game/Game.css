@@ -2,6 +2,27 @@ table {
     border-collapse: collapse;
 }
 
+.container {
+    display: grid;
+    grid-template-columns: [game-start] auto [control-start] 100px [end];
+    overflow: hidden;
+    height: 100vh;
+}
+
+.game {
+    grid-column-start: game-start;
+    grid-column-end: control-start;
+}
+
+.controls {
+    grid-column-start: control-start;
+    grid-column-end: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
 .cell {
     border: 1px solid #142542;
     margin: 0;

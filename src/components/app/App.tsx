@@ -10,7 +10,6 @@ import './App.css';
 function App() {
   return (
     <ThemeProvider theme={dark}>
-        <h1>Game of Cells</h1>
         <GameController />
     </ThemeProvider>
   );

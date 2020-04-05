@@ -8,41 +8,81 @@ const GameController = () => {
     //TODO: add a board theme (light or dark) to pass in here
     const [game, setGame] = useState( new Game(50, 50) );
     const [gameBoard, setGameBoard] = useState(game.board.grid);
-    const [pageSpeed, updateSpeed] = useState(500);
+    const [speed, setSpeed] = useState(500);
+    const [timerInterval, setTimer] = useState(0);
+    const [playPause, setPlayPause] = useState('Play');
 
-    const handleCellClick = (row: number, column: number) => {
-        console.log('clicked');
-        game.toggleCell(row, column);
-        const nextBoard = {...game.board.grid};
+
+    const updateBoard = () => {
+        const nextBoard = {...game.board.grid}
         setGameBoard(nextBoard);
     }
 
+    const handleCellClick = (row: number, column: number) => {
+        game.toggleCell(row, column);
+        updateBoard();
+    }
+
+    const togglePlay = () => {
+        //if playing, stop
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            setTimer(0);
+            setPlayPause('Play');
+        }
+        //if not playing, set new interval
+        else {
+            const newTimer = setInterval(handleStep, speed);
+            setTimer(newTimer);
+            setPlayPause('Pause');
+        }
+    }
+
+    const handleStep = () => {
+        game.cycle();
+        updateBoard();
+    }
+
     return (
-        <table>
-            <tbody id='grid-body'>
-                {
-                    game.board.grid.map((row, rIdx) => {
-                        return (
-                            <tr key={rIdx}>
-                                {
-                                    row.map((col, cIdx) => {
-                                        const cell = game.getCell(rIdx, cIdx);
-                                        return (
-                                            <td
-                                                key={cIdx}
-                                                className='cell'
-                                                style={{ backgroundColor: `${cell.color}`}}
-                                                onClick={() => handleCellClick(rIdx, cIdx)}
-                                            />
-                                        )
-                                    })
-                                }
-                            </tr>
-                        )
-                    })
-                }
-            </tbody>
-        </table>
+        <div>
+            <table>
+                <tbody id='grid-body'>
+                    {
+                        game.board.grid.map((row, rIdx) => {
+                            return (
+                                <tr key={rIdx}>
+                                    {
+                                        row.map((col, cIdx) => {
+                                            const cell = game.getCell(rIdx, cIdx);
+                                            return (
+                                                <td
+                                                    key={cIdx}
+                                                    className='cell'
+                                                    style={{ backgroundColor: `${cell.color}`}}
+                                                    onClick={() => handleCellClick(rIdx, cIdx)}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </table>
+            <div id='controls'>
+                <button
+                    onClick={handleStep}
+                >
+                    Step
+                </button>
+                <button
+                    onClick={togglePlay}
+                >
+                    {playPause}
+                </button>
+            </div>
+        </div>
     );
 };
 

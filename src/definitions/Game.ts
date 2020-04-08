@@ -19,9 +19,14 @@ class Game {
     return this.board.grid[row][column];
   }
 
+  clearBoard() {
+    let nextBoard = this.createBoard(this.board.rows, this.board.columns);
+    this.board = nextBoard;
+  }
+
   // Set a new this.board instead of mutating the existing board
   toggleCell(row: number, column: number): Cell {
-    const newBoard: Board = this.board;
+    const newBoard: Board = {...this.board};
     const newCell: Cell = {
       // toggle the alive state
       alive: !this.board.grid[row][column].alive,
@@ -46,11 +51,12 @@ class Game {
 
   liveNeighbors(row: number, column: number): number {
     let liveCount = 0;
-    const [startColumn, endColumn] = this.neighborIndices(column, this.board.columns);
-    const [startRow, endRow] = this.neighborIndices(row, this.board.rows);
+    
+    // const [startColumn, endColumn] = this.neighborIndices(column, this.board.columns);
+    // const [startRow, endRow] = this.neighborIndices(row, this.board.rows);
     // move clockwise around the cell, starting at upper left corner
-    for (let rIdx = startRow; rIdx <= endRow; rIdx += 1) {
-      for (let cIdx = startColumn; cIdx <= endColumn; cIdx += 1) {
+    for (let rIdx = Math.max(row - 1, 0); rIdx <= Math.min(row + 1, this.board.rows - 1); rIdx += 1) {
+      for (let cIdx = Math.max(column - 1, 0); cIdx <= Math.min(column + 1, this.board.columns - 1); cIdx += 1) {
         if (rIdx === row && cIdx === column) {
           continue;
         }
@@ -61,12 +67,13 @@ class Game {
   }
 
   cycle(): void {
-    let nextBoard = this.board;
+    let nextBoard = this.createBoard(this.board.rows, this.board.columns);
+    
     // loop through all the rows and columns of the board
-    nextBoard.grid.forEach((r, rowIdx) => {
-      nextBoard.grid[rowIdx].forEach((c, colIdx) => {
+    this.board.grid.forEach((r, rowIdx) => {
+      this.board.grid[rowIdx].forEach((c, colIdx) => {
         // find the liveNeighbors for the cell
-        const cell = this.getCell(rowIdx, colIdx);
+        const cell: Cell = this.getCell(rowIdx, colIdx);
         const livingNeighbors = this.liveNeighbors(rowIdx, colIdx);
         // And here are the famous rules of the game of life:
         // 1) Any LIVE cell with FEWER than TWO live neighbours DIES, as if by underpopulation.
@@ -97,7 +104,7 @@ class Game {
             color: this.theme.new,
           }
         } else {
-          nextBoard.grid[rowIdx][colIdx] = cell;
+          nextBoard.grid[rowIdx][colIdx] = {...cell};
         }
       });
     });
@@ -105,7 +112,7 @@ class Game {
   }
 
   randomize() {
-    let nextBoard = this.board;
+    let nextBoard = {...this.board};
     nextBoard.grid.forEach((r, rIdx) => {
       nextBoard.grid[rIdx].forEach((c, cIdx) => {
           nextBoard.grid[rIdx][cIdx] = 
@@ -121,6 +128,7 @@ class Game {
             }
       });
     });
+    this.board = nextBoard;
   }
 
   prettyPrint() {
